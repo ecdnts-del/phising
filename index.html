@@ -172,6 +172,18 @@
       font-size: 13px;
     }
 
+    /* Add styling for Phishing Simulation message */
+    .phishing-message {
+      margin-top: 20px;
+      background-color: #ffeb3b;
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+      color: #202124;
+    }
+
     @media (max-width: 420px) {
       .login-container {
         padding: 32px 24px;
@@ -187,7 +199,7 @@
     <h2>Masuk</h2>
     <p class="subtitle">Gunakan akun Anda untuk melanjutkan</p>
 
-    <form>
+    <form id="loginForm">
       <div>
         <label for="email">Email</label>
         <input id="email" type="email" name="email" placeholder="contoh@domain.com" required>
@@ -220,5 +232,25 @@
       Belum punya akun? <a href="#" class="link">Buat akun</a>
     </div>
   </div>
+
+  <!-- Phishing message (hidden initially) -->
+  <div id="phishingMessage" class="phishing-message" style="display: none;">
+    PHISHING SIMULATION
+  </div>
+
+  <script>
+    // Simulasi login
+    const form = document.getElementById("loginForm");
+
+    form.addEventListener("submit", function(event) {
+      event.preventDefault(); // Mencegah pengiriman form
+
+      // Simulasi login berhasil (di sini Anda bisa menambah logika untuk autentikasi)
+      setTimeout(function() {
+        // Menampilkan pesan phishing setelah login berhasil
+        document.getElementById("phishingMessage").style.display = "block";
+      }, 1000); // Delay 1 detik untuk simulasi
+    });
+  </script>
 </body>
 </html>
