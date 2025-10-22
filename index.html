@@ -1,256 +1,42 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login — Tampilan Elegan dengan Logo</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edukasi Phishing - Clarus IT</title>
   <style>
     * {
       box-sizing: border-box;
     }
+
     body {
       margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background-color: #f5f6f8;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       height: 100vh;
-    }
-
-    .login-container {
-      background-color: #fff;
-      border-radius: 16px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 380px;
-      padding: 48px 36px;
-      transition: all 0.3s ease;
-    }
-
-    .logo {
-      text-align: center;
-      font-weight: 700;
-      font-size: 34px;
-      margin-bottom: 18px;
-      letter-spacing: 1px;
-    }
-    .logo span:nth-child(1) { color: #4285F4; }
-    .logo span:nth-child(2) { color: #EA4335; }
-    .logo span:nth-child(3) { color: #FBBC05; }
-    .logo span:nth-child(4) { color: #34A853; }
-    .logo span:nth-child(5) { color: #4285F4; }
-    .logo span:nth-child(6) { color: #EA4335; }
-
-    h2 {
-      text-align: center;
-      margin: 0;
-      font-size: 22px;
-      color: #202124;
-      font-weight: 600;
-    }
-
-    p.subtitle {
-      text-align: center;
-      color: #5f6368;
-      font-size: 14px;
-      margin-bottom: 30px;
-    }
-
-    form {
       display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-
-    label {
-      font-size: 14px;
-      color: #202124;
-      margin-bottom: 4px;
-      font-weight: 500;
-    }
-
-    input[type="email"], input[type="password"] {
-      width: 100%;
-      padding: 12px 14px;
-      border: 1px solid #dadce0;
-      border-radius: 10px;
-      font-size: 15px;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    input:focus {
-      outline: none;
-      border-color: #4285F4;
-      box-shadow: 0 0 0 3px rgba(66,133,244,0.25);
-    }
-
-    .actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 6px;
-    }
-
-    .btn {
-      background-color: #1a73e8;
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      padding: 10px 20px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.3s ease, transform 0.1s ease;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    .btn:hover {
-      background-color: #155ab6;
-      transform: translateY(-1px);
-    }
-
-    .link {
-      color: #1a73e8;
-      font-size: 13px;
-      text-decoration: none;
-      transition: color 0.2s ease;
-    }
-
-    .link:hover {
-      color: #155ab6;
-    }
-
-    .divider {
-      display: flex;
-      align-items: center;
-      margin: 26px 0;
-      color: #5f6368;
-      font-size: 13px;
-    }
-
-    .divider::before, .divider::after {
-      content: "";
-      flex: 1;
-      border-top: 1px solid #e8eaed;
-    }
-
-    .divider span {
-      margin: 0 12px;
-      font-weight: 500;
-    }
-
-    .google-btn {
-      display: flex;
-      align-items: center;
       justify-content: center;
-      gap: 10px;
-      padding: 10px;
-      border: 1px solid #dadce0;
-      border-radius: 10px;
-      background-color: #fff;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-weight: 500;
-      font-family: 'Poppins', sans-serif;
+      align-items: center;
+      background: linear-gradient(135deg, #003366, #0099cc);
+      background-attachment: fixed;
+      font-family: Arial, sans-serif;
     }
 
-    .google-btn:hover {
-      background-color: #f8f9fa;
-      transform: translateY(-1px);
+    img {
+      max-width: 90%;
+      max-height: 90vh;
+      height: auto;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      object-fit: contain;
+      transition: transform 0.3s ease;
     }
 
-    .google-btn svg {
-      width: 18px;
-      height: 18px;
-    }
-
-    .foot {
-      text-align: center;
-      margin-top: 22px;
-      color: #5f6368;
-      font-size: 13px;
-    }
-
-    /* Add styling for Phishing Simulation message */
-    .phishing-message {
-      margin-top: 20px;
-      background-color: #ffeb3b;
-      padding: 10px;
-      border-radius: 8px;
-      text-align: center;
-      font-weight: bold;
-      font-size: 18px;
-      color: #202124;
-    }
-
-    @media (max-width: 420px) {
-      .login-container {
-        padding: 32px 24px;
-      }
+    img:hover {
+      transform: scale(1.02);
     }
   </style>
 </head>
 <body>
-  <div class="login-container">
-    <div class="logo" aria-label="Contoh logo">
-      <span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span>
-    </div>
-    <h2>Masuk</h2>
-    <p class="subtitle">Gunakan akun Anda untuk melanjutkan</p>
-
-    <form id="loginForm">
-      <div>
-        <label for="email">Email</label>
-        <input id="email" type="email" name="email" placeholder="contoh@domain.com" required>
-      </div>
-
-      <div>
-        <label for="password">Kata sandi</label>
-        <input id="password" type="password" name="password" placeholder="Kata sandi" required>
-      </div>
-
-      <div class="actions">
-        <a href="#" class="link">Lupa kata sandi?</a>
-        <button type="submit" class="btn">Berikutnya</button>
-      </div>
-    </form>
-
-    <div class="divider"><span>atau</span></div>
-
-    <button class="google-btn">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
-        <path d="M17.64 9.2c0-.63-.06-1.24-.17-1.82H9v3.44h4.84c-.21 1.15-.86 2.12-1.83 2.77v2.3h2.96c1.73-1.59 2.73-3.95 2.73-6.69z" fill="#4285F4"/>
-        <path d="M9 18c2.43 0 4.47-.8 5.96-2.16l-2.96-2.3c-.82.55-1.86.88-3 .88-2.31 0-4.27-1.56-4.97-3.66H1.03v2.3C2.5 15.9 5.55 18 9 18z" fill="#34A853"/>
-        <path d="M4.03 10.76a5.41 5.41 0 0 1 0-3.52V4.94H1.03a8.99 8.99 0 0 0 0 8.12l3-2.3z" fill="#FBBC05"/>
-        <path d="M9 3.58c1.32 0 2.5.45 3.43 1.34l2.57-2.57C13.46.9 11.42 0 9 0 5.55 0 2.5 2.1 1.03 4.94l3 2.3C4.73 5.14 6.69 3.58 9 3.58z" fill="#EA4335"/>
-      </svg>
-      <span>Masuk dengan Google</span>
-    </button>
-
-    <div class="foot">
-      Belum punya akun? <a href="#" class="link">Buat akun</a>
-    </div>
-  </div>
-
-  <!-- Phishing message (hidden initially) -->
-  <div id="phishingMessage" class="phishing-message" style="display: none;">
-    PHISHING SIMULATION
-  </div>
-
-  <script>
-    // Simulasi login
-    const form = document.getElementById("loginForm");
-
-    form.addEventListener("submit", function(event) {
-      event.preventDefault(); // Mencegah pengiriman form
-
-      // Simulasi login berhasil (di sini Anda bisa menambah logika untuk autentikasi)
-      setTimeout(function() {
-        // Menampilkan pesan phishing setelah login berhasil
-        document.getElementById("phishingMessage").style.display = "block";
-      }, 1000); // Delay 1 detik untuk simulasi
-    });
-  </script>
+  <!-- GANTI "img-http.png" dengan nama file gambarmu -->
+  <img src="img-http.png" alt="Poster Edukasi Phishing Clarus IT">
 </body>
 </html>
