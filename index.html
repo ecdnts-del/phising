@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Masuk — Simulasi Aman</title>
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --accent:#3b82f6;
+      --text:#e6eef8;
+      --muted:#9fb4d4;
+      --danger:#ef4444;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      background:linear-gradient(180deg,#071028 0%, #0b1220 100%);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:var(--text);
+      padding:24px;
+    }
+    .card{
+      width:100%;
+      max-width:420px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.03);
+      border-radius:12px;
+      padding:28px;
+      box-shadow:0 6px 30px rgba(2,6,23,0.6);
+    }
+    h1{
+      margin:0 0 8px 0;
+      font-size:20px;
+      letter-spacing:-0.3px;
+    }
+    p.lead{
+      margin:0 0 18px 0;
+      color:var(--muted);
+      font-size:13px;
+    }
+    label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+    input[type="text"], input[type="password"]{
+      width:100%;
+      padding:12px 14px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,0.04);
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+      color:var(--text);
+      margin-bottom:12px;
+      font-size:14px;
+      outline:none;
+    }
+    .actions{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      margin-top:8px;
+    }
+    button.primary{
+      background:linear-gradient(90deg,var(--accent),#60a5fa);
+      color:white;
+      border:none;
+      padding:10px 14px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:600;
+      box-shadow:0 6px 18px rgba(59,130,246,0.18);
+    }
+    button.ghost{
+      background:transparent;
+      color:var(--muted);
+      border:1px solid rgba(255,255,255,0.02);
+      padding:10px 12px;
+      border-radius:10px;
+      cursor:pointer;
+    }
+    .notice{
+      margin-top:18px;
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    /* full-screen simulation message */
+    .overlay{
+      position:fixed;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(180deg, rgba(2,6,23,0.6), rgba(2,6,23,0.85));
+      z-index:60;
+      padding:24px;
+      visibility:hidden;
+      opacity:0;
+      transition:visibility 0s linear .15s, opacity .15s ease-in-out;
+    }
+    .overlay.show{
+      visibility:visible;
+      opacity:1;
+      transition-delay:0s;
+    }
+    .message{
+      max-width:720px;
+      width:100%;
+      background:var(--card);
+      border-radius:12px;
+      padding:28px;
+      border:1px solid rgba(255,255,255,0.03);
+      text-align:center;
+    }
+    .message h2{
+      margin:0 0 8px 0;
+      font-size:22px;
+      color:var(--danger);
+    }
+    .message p{
+      margin:0 0 18px 0;
+      color:var(--muted);
+      font-size:15px;
+    }
+    .message button{
+      padding:10px 16px;
+      border-radius:10px;
+      border:none;
+      cursor:pointer;
+      background:var(--accent);
+      color:white;
+      font-weight:600;
+    }
+    .hint{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    footer{
+      margin-top:14px;
+      text-align:center;
+      color:rgba(255,255,255,0.05);
+      font-size:12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card" role="main" aria-labelledby="title">
+    <h1 id="title">Masuk ke Akun Anda</h1>
+    <p class="lead">Masukkan email dan kata sandi untuk melanjutkan.</p>
+
+    <!--
+      CATATAN PENTING:
+      - Form ini TIDAK mengirim data ke server apapun.
+      - Saat ditekan Submit, script mencegah pengiriman, menghapus input,
+        dan menampilkan pesan simulasi.
+      - Jangan gunakan kredensial nyata saat mencoba simulasi ini.
+    -->
+    <form id="loginForm" autocomplete="off" novalidate>
+      <div>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="text" inputmode="email" placeholder="nama@contoh.com" aria-label="Email" required>
+      </div>
+      <div>
+        <label for="password">Kata sandi</label>
+        <input id="password" name="password" type="password" placeholder="••••••••" aria-label="Kata sandi" required>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="primary">Masuk</button>
+        <button type="button" class="ghost" id="demoFill">Isi contoh</button>
+      </div>
+
+      <div class="notice">
+        <strong>Catatan:</strong> ini hanya contoh antarmuka — tidak menyimpan atau mengirim informasi.
+      </div>
+    </form>
+
+    <footer>Simulasi aman — untuk pelatihan kesadaran keamanan</footer>
+  </div>
+
+  <!-- overlay message -->
+  <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="simTitle" aria-describedby="simDesc">
+    <div class="message">
+      <h2 id="simTitle">Ini adalah simulasi phishing</h2>
+      <p id="simDesc">Anda baru saja mencoba mengirimkan informasi. Untuk alasan keamanan, data **tidak** disimpan atau dikirim. Pelatihan ini menunjukkan bagaimana halaman phishing dapat terlihat biasa, jadi jangan pernah memasukkan kredensial nyata saat ragu.</p>
+      <div class="hint">Tip: periksa URL, sertifikat, dan email pengirim sebelum memasukkan informasi sensitif.</div>
+      <div style="margin-top:18px;">
+        <button id="closeBtn">Kembali ke simulasi</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const form = document.getElementById('loginForm');
+      const overlay = document.getElementById('overlay');
+      const closeBtn = document.getElementById('closeBtn');
+      const demoFill = document.getElementById('demoFill');
+
+      // Demo filler (safe example)
+      demoFill.addEventListener('click', () => {
+        document.getElementById('email').value = 'user@example.com';
+        document.getElementById('password').value = 'password123';
+      });
+
+      // IMPORTANT: prevent any submission or network activity
+      form.addEventListener('submit', function(e){
+        e.preventDefault();             // block real submission
+        e.stopPropagation();
+
+        // Clear inputs immediately so nothing remains in DOM
+        document.getElementById('email').value = '';
+        document.getElementById('password').value = '';
+
+        // Show the training overlay (no data is recorded)
+        overlay.classList.add('show');
+      });
+
+      closeBtn.addEventListener('click', function(){
+        overlay.classList.remove('show');
+      });
+
+      // accessibility: close overlay with Escape
+      window.addEventListener('keydown', function(ev){
+        if(ev.key === 'Escape') overlay.classList.remove('show');
+      });
+    })();
+  </script>
+</body>
+</html>
